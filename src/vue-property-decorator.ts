@@ -1,15 +1,16 @@
-/** vue-property-decorator verson 8.4.1 MIT LICENSE copyright 2019 kaorun343 */
+/** vue-property-decorator verson 9.0.0 MIT LICENSE copyright 2019 kaorun343 */
 /// <reference types='reflect-metadata'/>
 'use strict'
-import Vue, { PropOptions, WatchOptions } from 'vue'
-import Component, { createDecorator, mixins } from 'vue-class-component'
-import { InjectKey } from 'vue/types/options'
+import { ComponentPropsOptions as PropOptions, WatchOptions } from 'vue'
+import { Options, Vue, createDecorator, mixins } from 'vue-class-component'
+
+type InjectKey = any
 
 export type Constructor = {
   new (...args: any[]): any
 }
 
-export { Component, Vue, mixins as Mixins }
+export { Options, Vue, mixins as Mixins }
 
 /** Used for keying reactive provide/inject properties */
 const reactiveInjectKey = '__reactiveInject__'
@@ -216,7 +217,7 @@ export function PropSync(
         get() {
           return (this as any)[propName]
         },
-        set(value) {
+        set(value: any) {
           // @ts-ignore
           this.$emit(`update:${propName}`, value)
         },
