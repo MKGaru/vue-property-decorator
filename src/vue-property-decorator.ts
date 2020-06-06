@@ -235,7 +235,7 @@ export function PropSync(
 export function Watch(path: string, options: WatchOptions = {}) {
   const { deep = false, immediate = false } = options
 
-  return createDecorator((componentOptions, handler) => {
+  return (target: any, key?: any, index?: any) => (createDecorator((componentOptions, handler) => {
     if (typeof componentOptions.watch !== 'object') {
       componentOptions.watch = Object.create(null)
     }
@@ -248,8 +248,8 @@ export function Watch(path: string, options: WatchOptions = {}) {
       watch[path] = []
     }
 
-    watch[path].push({ handler, deep, immediate })
-  })
+    watch[path].push({ handler: target[handler], deep, immediate })
+  }))(target, key, index)
 }
 
 // Code copied from Vue/src/shared/util.js
